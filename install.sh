@@ -40,7 +40,7 @@ fi
 
 APP_NAME=$(grep APP_NAME config.ini | cut -d '=' -f 2)
 RESTART_POLICY=$(grep RESTART_POLICY config.ini | cut -d '=' -f 2)
-LOCAL_HOST="localhost"
+LOCAL_HOST="127.0.0.1"
 LOCAL_PORT=$(get_free_port $LOCAL_HOST)
 PUBLIC_HOST=$(grep PUBLIC_HOST config.ini | cut -d '=' -f 2)
 PUBLIC_PORT=$(grep PUBLIC_PORT config.ini | cut -d '=' -f 2)
@@ -62,9 +62,8 @@ if  ! command -v docker &> /dev/null; then
         exit 1
     fi
     pid=$!
-    exit_code=$?
     wait $pid
-
+    exit_code=$?
 
     if [ $exit_code -eq 0 ]; then
         success "Docker успешно установлен"
@@ -173,7 +172,7 @@ else
     exit 1
 fi
 
-docker run -d --restart="$RESTART_POLICY" -p $LOCAL_HOST:"$LOCAL_PORT":80 -i "$APP_NAME":latest &
+docker run -d --restart="$RESTART_POLICY" -p $LOCAL_HOST:"$LOCAL_PORT":80 --name "$APP_NAME" -i "$APP_NAME":latest &
 pid=$!
 wait $pid
 exit_code=$?
@@ -186,4 +185,5 @@ else
 fi
 
 success "Установка завершена успешно!
-Приложение доступно по >" "$PUBLIC_HOST":"$PUBLIC_PORT"
+Приложение доступно по >  $PUBLIC_HOST:$PUBLIC_PORT"
+exit 0
