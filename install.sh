@@ -113,7 +113,7 @@ ln_status=$?
 if [ $cp_status -eq 0 ]; then
     success "Копирование конфигурации nginx успешно завершено"
 else
-    error "Копирование конфигурации nginx завершилась с ошибкой (exit code: $exit_code)"
+    error "Копирование конфигурации nginx завершилось с ошибкой (exit code: $exit_code)"
     exit 1
 fi
 
@@ -178,7 +178,7 @@ wait $pid
 exit_code=$?
 
 if [ $exit_code -eq 0 ]; then
-    success "Запуск приложения успешно завершен"
+    success "Приложение успешно запущено"
 else
     error "Запуск приложения завершился с ошибкой (exit code: $exit_code)"
     exit 1
